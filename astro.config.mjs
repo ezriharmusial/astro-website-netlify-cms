@@ -1,4 +1,9 @@
 import { defineConfig } from 'astro/config';
+
+// https://astro.build/config
+import image from "@astrojs/image";
+
+// https://astro.build/config
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from "@astrojs/tailwind";
@@ -25,7 +30,9 @@ import webmanifest from "astro-webmanifest";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [mdx(), sitemap(), svelte(), tailwind(), critters(), deadLinks(),webmanifest(
+  integrations: [image({
+    serviceEntryPoint: '@astrojs/image/sharp'
+  }), mdx(), sitemap(), svelte(), tailwind(), critters(), deadLinks(),webmanifest(
   {
     "name": "Example.com",
     "icon": "/favicon.svg",
