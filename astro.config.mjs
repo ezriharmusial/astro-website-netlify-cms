@@ -11,7 +11,7 @@ import svelte from "@astrojs/svelte";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [mdx(), sitemap(), svelte(), tailwind(), image()],
+  integrations: [mdx(), sitemap(), svelte(), tailwind(), image({serviceEntryPoint: '@astrojs/image/sharp'})],
   output: "server",
   adapter: netlify()
 });
