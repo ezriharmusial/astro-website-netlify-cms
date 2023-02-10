@@ -1,0 +1,31 @@
+---
+import '@skeletonlabs/skeleton/themes/theme-crimson.css';
+import '@skeletonlabs/skeleton/styles/all.css'
+// import '../styles/theme.css';
+import '../styles/base.css';
+
+import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton'
+
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body data-theme="crimson" class="bg-slate-200">
+		<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
+        <svelte:fragment slot="header">
+		<Header title={SITE_TITLE} />
+  	    </svelte:fragment>
+	    <slot />
+        <svelte:fragment slot="pageFooter">
+		<Footer />
+  	    </svelte:fragment>
+		</AppShell>
+	</body>
+</html>
