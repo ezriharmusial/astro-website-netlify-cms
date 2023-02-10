@@ -23,7 +23,8 @@ export async function getStaticPaths() {
 	});
 }
 
-const pages = await getStaticPaths()
+const sitePages = await getCollection('pages');
+
 
 import { getEntryBySlug } from 'astro:content';
 import Share from '~components/ux/Share.astro';
@@ -39,8 +40,8 @@ console.log('Astro', Astro.params)
 <BaseLayout>
 
 	<div slot="sidebarLeftNavList">
-		{pages && pages.map((page) => (
-			<li><a href={"/" + page.params.slug}>{page.params.title}</a></li>
+		{sitePages && sitePages.map((page) => (
+			<li><a href={"/" + page.slug}>{page.data.title}</a></li>
 		))}
 	</div>
 
