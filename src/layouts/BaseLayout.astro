@@ -12,6 +12,11 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Search from '../components/ux/Search.svelte';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+
+const response = await fetch('http://localhost:3000/api/v1/pages.json');
+const data = await response.json();
+
 ---
 
 <!DOCTYPE html>
@@ -29,7 +34,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                 </a>
             </svelte:fragment>
 
-            <!-- <Search client:only /> -->
+            <Search {data} client:load />
 
             <svelte:fragment slot="trail">
                 <div class="flex items-center space-x-6">
