@@ -35,32 +35,6 @@ export default defineConfig({
     "theme_color": "#010101",
     "background_color": "#010101",
     "display": "standalone",
-    "icons": [
-      {
-        "src": "/images/manifest/manifest-icon-192.maskable.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/images/manifest/manifest-icon-192.maskable.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "maskable"
-      },
-      {
-        "src": "/images/manifest/manifest-icon-512.maskable.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/images/manifest/manifest-icon-512.maskable.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "maskable"
-      }
-    ]
   }
   )],
   output: "server",
