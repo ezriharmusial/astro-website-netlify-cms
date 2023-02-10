@@ -1,0 +1,168 @@
+---
+
+import { Icon } from 'astro-icon'
+import { PageTransition } from 'astro-page-transition';
+import { AppShell, AppBar, AppRail, AppRailTile, Avatar, LightSwitch } from '@skeletonlabs/skeleton'
+
+export let frontmatter
+
+const { index, title, subtitle, image, description, bold, color, size, carousel } = frontmatter || Astro.props.frontmatter || Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<meta name="generator" content={Astro.generator} />
+</head>
+<body data-theme="crimson" class="dark dark:text-white light:text-black">
+	<!-- Page Transition -->
+	<PageTransition speed={500} color="hsl(44deg, 100%, 77%)" zIndex={99} />
+
+    <!-- Include the script that builds the page and powers Netlify CMS -->
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <script>
+      function getTextColor(color) {
+        let darkColor = getDarkColor(color)
+        return darkColor.replace('is-', 'has-text-')
+      }
+      function getHighlightTextColor(color) {
+        let textColor = (
+            color === 'is-light' ||
+            color === 'is-white') ? 'is-dark' : //if its light return dark
+          (color === 'is-warning') ? getDarkColor(color) : // if its warning return dark contrast
+          getLightColor(color)
+        return textColor.replace('is-', 'has-text-')
+      }
+      function getLightBackgroundColor(color) {
+        let lightColor = getLightColor(color)
+        // console.log('HIERO:', color, lightColor.replace('is-', 'has-background-'))
+        return lightColor.replace('is-', 'has-background-')
+      }
+      function getBackgroundColor(color) {
+        // console.log('HIERO:', color, lightColor.replace('is-', 'has-background-'))
+        return color.replace('is-', 'has-background-')
+      }
+      function getLightColor(color) {
+        return (!color ? 'is-light' :
+            color === 'is-light') ? 'is-light' :
+          (color === 'is-white') ? 'is-white' :
+          (color === 'is-dark') ? 'is-light' :
+          (color === "is-black") ? 'is-white' :
+          color + '-light' // else return light version
+      }
+      function getDarkColor(color) {
+        return (
+            color === 'is-light') ? 'is-dark' :
+          (color === 'is-white') ? 'is-black' :
+          (color === 'is-dark') ? 'is-dark' :
+          (color === "is-black") ? 'is-black' :
+          color + '-dark' // else return dark version
+      }
+      CMS.registerPreviewStyle("/admin/mobile.css");
+      CMS.registerPreviewStyle("/admin/adminstyles.css");
+      var PagesPreview = createClass({
+        render: function() {
+          var entry = this.props.entry;
+          var image = entry.getIn(['data', 'image']);
+          var bg = this.props.getAsset(image);
+          var color = entry.getIn(['data', 'color'])
+          var bold = entry.getIn(['data', 'bold'])
+          var size = entry.getIn(['data', 'size'])
+          let herostyles = ' ' +
+            bold ? 'is-bold ' : ' ' +
+            color ? color : 'is-primary ' +
+            size ? size : 'is-fullheight ' +
+            bg ? 'has-background ' : 'has-background '
+          return h('div', {
+              className: getLightBackgroundColor(color)
+            },
+            h('header', {
+                className: 'hero is-fullheight-with-navbar has-background ' + herostyles
+              },
+              h('img', {
+                className: 'hero-image',
+                src: bg.toString()
+              }),
+              h('div', {
+                  className: 'hero-head'
+                },
+                h('div', {
+                    className: 'navbar is-spaced ' + color
+                  },
+                  h('div', {
+                      className: 'navbar-brand ml-3 in:fade ' + color
+                    },
+                    h('a', {
+                        className: 'navbar-item is-hidden-mobile is-active ' + getLightBackgroundColor(color) + ' ' + getTextColor(color)
+                      },
+                      h('h1', {
+                        className: 'title is-size-5 branding-font pl-3 ' + getTextColor(color)
+                      }, 'EZ ICT'),
+                    ),
+                  ),
+                  h('div', {
+                      id: "navbarMenuHeroC",
+                      className: 'navbar-menu'
+                    },
+                    h('div', {
+                        className: "navbar-start is-transparent in:fly-y:-200duration:500 out:fade " + getLightBackgroundColor(color) + ' ' + getTextColor(color)
+                      },
+                      h('a', {
+                          className: "is-size-5 navbar-item mx-1 py-5 has-text-dark " + getHighlightTextColor(color)
+                        },
+                        h('span', {
+                            className: 'icon-text is-capitalized'
+                          },
+                          h('span', {
+                            className: 'icon-text is-capitalized'
+                          }, entry.getIn(['data', 'title'])),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              h('div', {
+                  className: 'hero-body'
+                },
+                h('div', {
+                    className: 'container'
+                  },
+                  h('div', {
+                      className: 'box notification is-transparent content ' + getLightBackgroundColor(color)
+                    },
+                    h('h1', {
+                      className: 'title is-size-4 ' + getTextColor(color)
+                    }, entry.getIn(['data', 'title'])),
+                    h('h2', {
+                      className: 'subtitle is-size-5 ' + getTextColor(color)
+                    }, entry.getIn(['data', 'subtitle'])),
+                    h('div', {
+                        className: 'content ' + getTextColor(color)
+                      },
+                      h('p', {}, entry.getIn(['data', 'description'])),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            h('main', {
+                className: 'section ' + getLightBackgroundColor(color)
+              },
+              h('div', {
+                className: "container raised"
+              }, this.props.widgetFor('body'))
+            ),
+          );
+        }
+      });
+      CMS.registerPreviewTemplate("pages", PagesPreview);
+    </script>
+
+
+	<!-- Netlify Identiy widget -->
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</body>
+</html>
