@@ -18,4 +18,16 @@ const blog = defineCollection({
 	}),
 });
 
-export const collections = { blog };
+const pages = defineCollection({
+    schema: z.object({
+        index: z.number(),
+        title: z.string(),
+        subtitle: z.string(),
+        image: z.string().optional(),
+        description: z.string(),
+        tags: z.array(z.string()).optional(),
+        color: z.string().optional(),
+    })
+});
+
+export const collections = {pages, blog };

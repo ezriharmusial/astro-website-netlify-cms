@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import Images from "../components/cards/Images.astro";
+import Videos from "../components/cards/Videos.astro";
+import HeroFormLight from "../components/headers/HeroFormLight.astro";
+import HeroVideoDark from "../components/headers/HeroVideoDark.astro";
+import ExampleContent from '../components/content/ExampleContent.astro';
+
+export async function getStaticPaths() {
+	const sitePages = await getCollection('pages');
+
+	return sitePages.map(page => {
+
+		console.log('DOUBLE CHECK: ' + page.slug)
+
+		return {
+			params: { slug: page.slug },
+			props: { page }
+		}
+	});
+}
+
+const pages = await getStaticPaths()
+
+import { getEntryBySlug } from 'astro:content';
+import Share from '~components/ux/Share.astro';
+// 1. Get the slug from the incoming server request
+const { slug } = Astro.params;
+// 2. Query for the entry directly using the request slug
+const entry = await getEntryBySlug('pages', slug);
+const { Content } = await entry?.render() || false;
+// console.log('pages', pages)
+console.log('Astro', Astro.params)
+// console.log('Astro.params', Astro.params)
+---
+<BaseLayout>
+
+	<div slot="sidebarLeftNavList">
+		{pages && pages.map((page) => (
+			<li><a href={"/" + page.params.slug}>{page.params.title}</a></li>
+		))}
+	</div>
+
+	<HeroVideoDark />
+
+	{Content ?
+		<!-- All but Index -->
+		<div class="container mx-auto p-8 space-y-8">
+			<h1>{entry.data.title}</h1>
+			<h2>{entry.data.subtitle}</h2>
+			<p>{entry.data.description}</p>
+			<hr />
+			<section class="card p-4">
+				<Content />
+			</section>
+			<hr />
+			<section class="flex space-x-2">
+				<Share entry={entry} />
+			</section>
+		</div>
+		:
+		<!-- Index -->
+		<ExampleContent />
+	}
+
+	<div class="container my-24 px-6 mx-auto">
+		<Images />
+	</div>
+	<HeroFormLight />
+	<div class="container my-24 px-6 mx-auto">
+		<Videos />
+	</div>
+</BaseLayout>
