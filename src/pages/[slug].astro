@@ -14,8 +14,6 @@ export async function getStaticPaths() {
 
 	return sitePages.map(page => {
 
-		console.log('DOUBLE CHECK: ' + page.slug)
-
 		return {
 			params: { slug: page.slug },
 			props: { page }
@@ -33,9 +31,6 @@ const { slug } = Astro.params;
 // 2. Query for the entry directly using the request slug
 const entry = await getEntryBySlug('pages', slug);
 const { Content } = await entry?.render() || false;
-// console.log('pages', pages)
-console.log('Astro', Astro.params)
-// console.log('Astro.params', Astro.params)
 ---
 <BaseLayout>
 
