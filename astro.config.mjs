@@ -15,10 +15,54 @@ import critters from "astro-critters";
 // https://astro.build/config
 import deadLinks from "astro-dead-links";
 
+
+// https://astro.build/config
+import purgecss from "astro-purgecss";
+
+// https://astro.build/config
+import webmanifest from "astro-webmanifest";
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [mdx(), sitemap(), svelte(), tailwind(), critters(), deadLinks(),],
+  integrations: [mdx(), sitemap(), svelte(), tailwind(), critters(), deadLinks(),webmanifest(
+  {
+    "name": "Example.com",
+    "icon": "/favicon.svg",
+    "short_name": "Example",
+    "description": "Your Site Description",
+    "start_url": "/",
+    "theme_color": "#010101",
+    "background_color": "#010101",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "/images/manifest/manifest-icon-192.maskable.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/images/manifest/manifest-icon-192.maskable.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "/images/manifest/manifest-icon-512.maskable.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/images/manifest/manifest-icon-512.maskable.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ]
+  }
+  )],
   output: "server",
   adapter: netlify(),
 
