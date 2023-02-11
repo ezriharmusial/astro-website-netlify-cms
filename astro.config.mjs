@@ -20,7 +20,6 @@ import critters from "astro-critters";
 // https://astro.build/config
 import deadLinks from "astro-dead-links";
 
-
 // https://astro.build/config
 import purgecss from "astro-purgecss";
 

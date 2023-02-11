@@ -1,13 +1,50 @@
 ---
-const today = new Date();
+  const today = new Date();
+  import { Icon } from 'astro-icon'
 ---
 
-<footer>
-	&copy; {today.getFullYear()} YOUR NAME HERE. All rights reserved.
+<footer class="text-center">
+  <div class="px-auto py-6">
+    <h3 class="title marker text-3xl text-primary-500">Follow us on:</h3>
+    <div class="flex gap-4 justify-center text-center text-xs font-bold my-6">
+      <a id="facebook" href="https://www.facebook.com/LastMessengerS" target="_blank" rel="nofollow noopener noreferrer" type="button" class="btn-icon variant-ringed-primary ring-2">
+        <Icon pack="fa" name="facebook-official" />
+      </a>
+
+      <a id="twitter" href="https://twitter.com/LastMessengerZ" target="_blank" rel="nofollow noopener noreferrer" type="button" class="btn-icon variant-ringed-primary ring-2">
+        <Icon pack="fa" name="twitter" />
+      </a>
+
+      <a id="youtube" href="https://www.youtube.com/channel/UC_nLmP5HYQZ0UlndjADCSdA" type="button" class="btn-icon variant-ringed-primary ring-2">
+        <Icon pack="fa" name="youtube" />
+      </a>
+
+      <a id="bandcamp" href="https://lastmessengers.bandcamp.com/" type="button" class="btn-icon variant-ringed-primary ring-2">
+        <Icon pack="simple-icons" name="bandcamp" />
+      </a>
+
+      <a id="linkedin" href="#!" type="button" class="btn-icon variant-ringed-primary ring-2">
+        <Icon pack="fa" name="linkedin-square" />
+      </a>
+
+      <a id="github" href="https://github.com/ezri-harmusial/LastMessengerS" type="button" class="btn-icon variant-ringed-primary ring-2">
+        <Icon pack="fa" name="github" />
+      </a>
+    </div>
+  </div>
+  <div class="text-center p-4">
+    &copy; {today.getFullYear()}  Copyright:
+      <a class="brand flex justify-center items-center italic text-xl font-shadow font-bold" href="https://ez-ictsolution.io" title="visit the ez-ictsolution.io Website?">
+      <div class="h-8 w-8 mr-2">
+        <img src="/pwa-192x192.png" alt="EZ-ICT Soluition: Funding Happiness" />
+      </div>
+      <span class="ezict text-red-500 text-bold">EZ-ICT</span><span class="solutions text-yellow-400 font-shadow">Solutions</span>.io
+      </a>
+  </div>
 </footer>
-<style>
-	footer {
-		padding: 25px;
-		text-align: center;
-	}
+
+<style lang="css">
+    [astro-icon] {
+      min-width: 1rem;
+    }
 </style>

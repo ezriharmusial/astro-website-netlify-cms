@@ -8,58 +8,88 @@ import { getCollection } from 'astro:content';
 import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton'
 import { PageTransition } from 'astro-page-transition';
 
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
+import SEO from '../components/SEO.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Search from '../components/ux/Search.svelte';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
+export let frontmatter
+
 const response = await fetch(Astro.url.origin + '/api/v1/pages.json');
 const data = await response.json();
 const pageList = await getCollection('pages');
 
+const { index, title, subtitle, image, description  } = frontmatter || Astro.props.frontmatter || Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	<link rel="manifest" href="/manifest.webmanifest">
+	<SEO description{description || subtitle} {title} {image} />
 </head>
-<body data-theme="crimson" class="bg-slate-200">
-    <AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
-        <svelte:fragment slot="header">
-			<AppBar background="bg-surface-100-800-token dark:bg-surface-800-100-token">
-            <svelte:fragment slot="lead">
-                <a href="/">
-                    <span class="text-base md:text-3xl font-bold uppercase">Logo</span>
-                </a>
+<body data-theme="crimson" class="bg-primary-200">
+	<slot name="extendedHead" />
+
+	<!-- Page Transition -->
+	<PageTransition speed={500} color={"orange"} zIndex={99} />
+	<div style="display: contents" class="h-full overflow-hidden">
+
+        <AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
+            <svelte:fragment slot="header">
+                <AppBar background="bg-surface-100-800-token dark:bg-surface-800-100-token">
+                <svelte:fragment slot="lead">
+                    <a href="/">
+                        <span class="text-base md:text-3xl font-bold uppercase">Logo</span>
+                    </a>
+                </svelte:fragment>
+
+                <Search {data} client:load />
+
+                <svelte:fragment slot="trail">
+                    <div class="flex items-center space-x-6">
+                        <Header title={SITE_TITLE} />
+                        <a href="/components/app-bar">
+                            <svg class="svg-inline--fa fa-image text-xl" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="image" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48z"></path></svg><!-- <i class="fa-solid fa-image text-xl"></i> Font Awesome fontawesome.com -->
+                            Link
+                        </a>
+                        <a>
+                        <LightSwitch client:load />
+                        </a>
+                    </div>
+                </svelte:fragment>
+                </AppBar>
+            </svelte:fragment>
+            <svelte:fragment slot="sidebarLeft">
+                <nav class="list-nav">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <slot name="sidebarLeftNavList">
+                        {pageList && pageList.map(page => (
+                            <li>
+                                <a href={"/" + page.slug} >
+                                    <span class="flex-auto">
+                                    {page.data.title}
+                                    </span>
+                                </a>
+                            </li>
+                        ))}
+                        </slot>
+                    </ul>
+                </nav>
             </svelte:fragment>
 
-            <Search {data} client:load />
+            <slot />
 
-            <svelte:fragment slot="trail">
-                <div class="flex items-center space-x-6">
-                    <Header title={SITE_TITLE} />
-                    <a href="/components/app-bar">
-                        <svg class="svg-inline--fa fa-image text-xl" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="image" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48z"></path></svg><!-- <i class="fa-solid fa-image text-xl"></i> Font Awesome fontawesome.com -->
-                        Link
-                    </a>
-                    <a>
-                    <LightSwitch client:load />
-                    </a>
-                </div>
-            </svelte:fragment>
-            </AppBar>
-        </svelte:fragment>
-        <svelte:fragment slot="sidebarLeft">
-        	<nav class="list-nav">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <slot name="sidebarLeftNavList">
+            <svelte:fragment slot="pageFooter">
+                <div class="flex gap-4 m-8">
+                    <slot name="pageList">
+
+                    <div class="card p-4 space-y-4 w-1/3">
+                    <h3 class="font-bold">Pages</h3>
+                    <ul class="list">
                     {pageList && pageList.map(page => (
-                        <li>
+                        <li class="list">
                             <a href={"/" + page.slug}>
                                 <span class="flex-auto">
                                 {page.data.title}
@@ -67,37 +97,18 @@ const pageList = await getCollection('pages');
                             </a>
                         </li>
                     ))}
-                    </slot>
-                </ul>
-            </nav>
-        </svelte:fragment>
-
-        <slot />
-
-        <svelte:fragment slot="pageFooter">
-            <div class="flex gap-4 m-8">
-                <slot name="pageList">
-
-                <div class="card p-4 space-y-4 w-1/3">
-                <h3 class="font-bold">Pages</h3>
-                <ul class="list">
-                {pageList && pageList.map(page => (
-                    <li class="list">
-                        <a href={"/" + page.slug}>
-                            <span class="flex-auto">
-                            {page.data.title}
-                            </span>
-                        </a>
-                    </li>
-                ))}
-                </ul>
+                    </ul>
+                    </div>
                 </div>
-            </div>
-            </slot>
+                </slot>
 
-            <Footer />
-        </svelte:fragment>
-    </AppShell>
+                <Footer />
+            </svelte:fragment>
+        </AppShell>
+	</div>
+    <!-- Service Worker -->
     <script src="/src/index.ts"></script>
+	<!-- Netlify Identiy widget -->
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </body>
 </html>

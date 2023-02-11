@@ -1,0 +1,46 @@
+---
+	export interface Props {
+		title: string;
+		description: string;
+		image?: string;
+	}
+
+    export let image = "/favicon.svg", description = "Describing the Website", title = "Homepage"
+
+ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{Astro.site + ' - ' + title}</title>
+<meta name="robots" content="index,follow">
+<meta name="description" content={description || "Welkom to EZ-ICT Soluition"}>
+<!-- Facebook OpenGraph -->
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description || "Welkom to EZ-ICT Soluition"}>
+<meta property="og:url" content={Astro.url.origin}>
+<meta property="og:type" content="website">
+<meta property="og:image" content={}>
+<meta property="og:locale" content="en_EN">
+<meta property="og:site_name" content="EZ-ICT Soluition">
+<link rel="canonical" href={canonicalURL}>
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content={title}>
+<meta property="twitter:description" content={description || "Welkom to EZ-ICT Soluition"}>
+<meta property="twitter:image" content={Astro.url.origin + image }>
+<meta property="og:image" content={Astro.url.origin + image}>
+<link rel="manifest" href="/manifest.webmanifest">
+
+<span slot="ExtendedHeader">
+    <!-- SEO section -->
+	<link itemprop="thumbnailUrl" href={Astro.url.origin + image}>
+	<span class="hidden" itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+		<link itemprop="url" href={Astro.url.origin + image}>
+	</span>
+</span>
