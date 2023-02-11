@@ -7,24 +7,23 @@ import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, date, updatedDate, image } = Astro.props;
 ---
 
 <BaseLayout>
-	<main>
-		<article>
-			{heroImage && <Image width="720" height="360" src={heroImage} alt={title} class="w-full" />}
-			<h1 class="title">{title}</h1>
-			<FormattedDate date={pubDate} />
-			{
-				updatedDate && (
-				<div class="last-updated-on">
-					Last updated on <FormattedDate date={updatedDate} />
-				</div>
-				)
-			}
-			<hr />
-			<slot />
-		</article>
-	</main>
+	{image && <Image width="720" height="360" src={image} alt={title} class="w-full" />}
+
+	<div class="container mx-auto p-8 space-y-8">
+		<h1 class="title">{title}</h1>
+		<FormattedDate date={date} />
+		{
+			updatedDate && (
+			<div class="last-updated-on">
+				Last updated on <FormattedDate date={updatedDate} />
+			</div>
+			)
+		}
+		<hr />
+		<slot />
+	</div>
 </BaseLayout>

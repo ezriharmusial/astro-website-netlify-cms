@@ -1,0 +1,61 @@
+backend:
+  name: git-gateway
+  branch: main
+# Local testing
+local_backend: true
+collections:
+  - name: "pages"
+    label: "Paginas"
+    label_singular: "Pagina"
+    folder: "src/content/pages/"
+    preview_path: "{{title}}"
+    create: true
+    fields:
+      - {label: "Pubilcatie Datum", name: "date", widget: "datetime"}
+      - {label: "Menu volgorde", name: "index", widget: "number"}
+      - {label: "Pagina Kop Grootte", name: "size", widget: "select", options: [ "is-small", "is-medium", "is-large", "is-halfheight", "is-fullheight" ], required: true, default: "is-fullheight"}
+      - {label: "Pagina Titel", name: "title", widget: "string"}
+      - {label: "Pagina SubTitle", name: "subtitle", widget: "string"}
+      - {label: "Pagina Kleur", name: "color", widget: "select", options: [ "is-primary", "is-success", "is-info", "is-link", "is-danger", "is-warning", "is-light", "is-dark"], default: "primary"}
+      - {label: "Foto", name: "image", widget: "image", media_folder: '/public/uploads/pages', public_folder: '/uploads/pages', default: /pwa-192x192.png }
+      - {label: "Foto Bescrijfing (SEO)", name: "imageAlt", required: false }
+      - {label: "Pagina Text", name: "body", widget: "markdown"}
+      - {label: "Tags (SEO)", name: "tags", widget: "list", default: ["news"], required: false}
+      - {label: "Korte Pagina Samenvatting (SEO)", name: "description", required: false }
+
+  - name: "blog"
+    label: "Posts"
+    label_singular: "Post"
+    folder: "src/content/blog/"
+    preview_path: "{{title}}"
+    create: true
+    fields:
+      - {label: "Pubilcatie Datum", name: "date", widget: "datetime"}
+      - {label: "Menu volgorde", name: "index", widget: "number"}
+      - {label: "Pagina Kop Grootte", name: "size", widget: "select", options: [ "is-small", "is-medium", "is-large", "is-halfheight", "is-fullheight" ], required: true, default: "is-fullheight"}
+      - {label: "Pagina Titel", name: "title", widget: "string"}
+      - {label: "Pagina SubTitle", name: "subtitle", widget: "string"}
+      - {label: "Pagina Kleur", name: "color", widget: "select", options: [ "is-primary", "is-success", "is-info", "is-link", "is-danger", "is-warning", "is-light", "is-dark"], default: "primary"}
+      - {label: "Foto", name: "image", widget: "image", media_folder: '/public/uploads/pages', public_folder: '/uploads/pages', default: /pwa-192x192.png }
+      - {label: "Foto Bescrijfing (SEO)", name: "imageAlt", required: false }
+      - {label: "Pagina Text", name: "body", widget: "markdown"}
+      - {label: "Tags (SEO)", name: "tags", widget: "list", default: ["news"], required: false}
+      - {label: "Korte Pagina Samenvatting (SEO)", name: "description", required: false }
+
+    # adding a meta object with a path property allows editing the path of entries
+    # moving an existing entry will move the entire sub tree of the entry to the new location
+    # meta: { path: { widget: string, label: 'Path', index_file: 'index' } }
+
+media_folder: 'public/uploads'
+public_folder: '/uploads'
+search: false
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: ""
+show_preview_links: false
+
+locale: 'nl'
+site_url: https://ez-ictsoulutions.io
+display_url: https://ez-ictsoulutions.io
+logo_url: /pwa-192x192.png
